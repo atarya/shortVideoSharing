@@ -1,0 +1,42 @@
+{
+    "expo": {
+        "name": "client",
+        "slug": "client",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "userInterfaceStyle": "light",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "#FFFFFF"
+            }
+        },
+        "web": {
+            "favicon": "./assets/favicon.png",
+            "config": {
+                "firebase": {
+                    "apiKey": "AIzaSyCnv9KMrC6DDh0rLmGrUDGjMBXKxc-su_Y",
+                    "authDomain": "shortvideosharing-bd4f3.firebaseapp.com",
+                    "databaseURL": "https://shortvideosharing-bd4f3-default-rtdb.asia-southeast1.firebasedatabase.app",
+                    "projectId": "shortvideosharing-bd4f3",
+                    "storageBucket": "shortvideosharing-bd4f3.appspot.com",
+                    "messagingSenderId": "384828376677",
+                    "appId": "1:384828376677:web:74435342d6880edfb0e88c"
+                }
+            }
+        }
+    }
+}
