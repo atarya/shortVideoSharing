@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 
 import { Provider } from "react-redux";
 import configureStore from "@reduxjs/toolkit";
@@ -19,9 +19,11 @@ if (firebase.apps.length == 0) {
 
 export default function App() {
     return (
-        <Provider store={store}>
-            <AuthScreen />
-        </Provider>
+        <SafeAreaView style={{ flex: 1 }}>
+            <Provider store={store}>
+                <AuthScreen />
+            </Provider>
+        </SafeAreaView>
     );
 }
 
