@@ -27,9 +27,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
             .catch((err) => {
                 console.log(
                     "Register failed",
-                    typeof email,
-                    typeof password,
-                    err
                 );
             });
     };
