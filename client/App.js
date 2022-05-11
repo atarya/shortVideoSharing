@@ -10,6 +10,7 @@ import rootReducer from "./src/redux/reducers";
 import Constants from "expo-constants";
 import firebase from "firebase/app";
 import AuthScreen from "./src/screens/auth";
+import Route from "./src/navigation/main";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
@@ -21,17 +22,8 @@ export default function App() {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <Provider store={store}>
-                <AuthScreen />
+                <Route />
             </Provider>
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});
