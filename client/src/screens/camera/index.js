@@ -1,7 +1,7 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Camera } from "expo-camera";
 import { Audio } from "expo-av";
+import React, { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { useIsFocused } from "@react-navigation/core";
@@ -39,7 +39,7 @@ export default function CameraScreen() {
                     sortBy: ["creationTime"],
                     mediaType: ["video"],
                 });
-                setGalleryItems(userGalleryMedia);
+                setGalleryItems(userGalleryMedia.assets);
             }
         })();
     }, []);
@@ -58,13 +58,25 @@ export default function CameraScreen() {
             }
         }
     }
+
     const stopVideo = async () => {
         if (cameraRef) {
             cameraRef.stopRecording();
         }
     }
 
+    const pickFromGallery = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+            allowsEditing: true,
+            aspect: [16, 9],
+            quality: 1,
+        })
+        if (!result.cancelled) {
+            // TODO: Add video to gallery
+        }
 
+    }
 
     if (
         !hasCameraPermissions ||
@@ -87,6 +99,7 @@ export default function CameraScreen() {
                     : null}
 
                 <View style={styles.bottomBarContainer}>
+                    <View style={{ flex: 1 }}></View>
                     <View style={styles.recordButtonContainer}>
                         <TouchableOpacity
                             disabled={!isCameraReady}
@@ -95,9 +108,22 @@ export default function CameraScreen() {
                             style={styles.recordButton}
                         />
                     </View>
+                    <View style={{ flex: 1 }}>
+                        <TouchableOpacity
+                            onPress={() => pickFromGallery()}
+                            style={styles.galleryButton}
+                        >
+                            {galleryItems[0] == undefined ? <></> :
+                                <Image
+                                    style={styles.galleryButtonImage}
+                                    source={{ uri: galleryItems[0].uri }}
+                                />
+                            }
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
-            </View>
+            </View >
         );
     }
 }

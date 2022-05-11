@@ -27,6 +27,19 @@ const styles = StyleSheet.create({
         height: 70,
         width: 70,
         alignSelf: "center",
+    },
+    galleryButton: {
+        borderWidth: 2,
+        borderColor: "white",
+        borderRadius: 10,
+        overflow: "hidden",
+        width: 50,
+        height: 50,
+        alignItems: "center",
+    },
+    galleryButtonImage: {
+        width: "100%",
+        height: "100%",
     }
 });
 
