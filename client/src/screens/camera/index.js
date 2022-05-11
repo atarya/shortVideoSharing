@@ -1,9 +1,11 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Camera } from "expo-camera";
 import { Audio } from "expo-av";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
+import { useIsFocused } from "@react-navigation/core";
+import styles from "./styles";
 
 export default function CameraScreen() {
     const [hasCameraPermissions, setHasCameraPermissions] = useState(false);
@@ -11,6 +13,14 @@ export default function CameraScreen() {
     const [hasGalleryPermissions, setHasGalleryPermissions] = useState(false);
 
     const [galleryItems, setGalleryItems] = useState([]);
+
+    const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
+    const [cameraFlash, setCameraFlash] = useState(Camera.Constants.FlashMode.off);
+    const [isCameraReady, setIsCameraReady] = useState(false);
+
+    const [cameraRef, setCameraRef] = useState(null);
+
+    const isFocused = useIsFocused();
 
     useEffect(() => {
         (async () => {
@@ -34,17 +44,60 @@ export default function CameraScreen() {
         })();
     }, []);
 
+    const recordVideo = async () => {
+        if (cameraRef) {
+            try {
+                const options = { maxDuration: 60, quality: Camera.Constants.VideoQuality["720p"] };
+                const videoRecordPromise = await cameraRef.recordAsync(options);
+                if (videoRecordPromise) {
+                    const data = await videoRecordPromise;
+                    const source = data.uri
+                }
+            } catch (error) {
+                console.warn(error);
+            }
+        }
+    }
+    const stopVideo = async () => {
+        if (cameraRef) {
+            cameraRef.stopRecording();
+        }
+    }
+
+
+
     if (
         !hasCameraPermissions ||
         !hasAudioPermissions ||
         !hasGalleryPermissions
     ) {
         return <View></View>;
-    }
+    } else {
+        return (
+            <View style={styles.container}>
+                {isFocused ?
+                    <Camera
+                        ref={ref => setCameraRef(ref)}
+                        style={styles.camera}
+                        ratio={"16:9"}
+                        type={cameraType}
+                        flashMode={cameraFlash}
+                        onCameraReady={() => setIsCameraReady(true)}
+                    />
+                    : null}
 
-    return (
-        <View style={{ margin: 30 }}>
-            <Text>CameraScreen</Text>
-        </View>
-    );
+                <View style={styles.bottomBarContainer}>
+                    <View style={styles.recordButtonContainer}>
+                        <TouchableOpacity
+                            disabled={!isCameraReady}
+                            onLongPress={() => recordVideo()}
+                            onPressOut={() => stopVideo()}
+                            style={styles.recordButton}
+                        />
+                    </View>
+                </View>
+
+            </View>
+        );
+    }
 }
