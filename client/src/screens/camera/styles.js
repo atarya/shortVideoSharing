@@ -40,6 +40,23 @@ const styles = StyleSheet.create({
     galleryButtonImage: {
         width: "100%",
         height: "100%",
+    },
+    sideBarContainer: {
+        top: 60,
+        right: 0,
+        marginHorizontal: 20,
+        position: "absolute",
+    },
+    iconText: {
+        color: "white",
+        fontSize: 12,
+        marginTop: 5,
+        fontWeight: "bold",
+    },
+    sideBarButton: {
+        alignItems: "center",
+        marginBottom: 25,
+
     }
 });
 

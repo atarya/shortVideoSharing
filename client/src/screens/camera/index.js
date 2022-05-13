@@ -5,7 +5,10 @@ import React, { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { useIsFocused } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/native";
 import styles from "./styles";
+
+import { Feather } from "@expo/vector-icons";
 
 export default function CameraScreen() {
     const [hasCameraPermissions, setHasCameraPermissions] = useState(false);
@@ -21,6 +24,8 @@ export default function CameraScreen() {
     const [cameraRef, setCameraRef] = useState(null);
 
     const isFocused = useIsFocused();
+
+    const navigation = useNavigation();
 
     useEffect(() => {
         (async () => {
@@ -52,6 +57,7 @@ export default function CameraScreen() {
                 if (videoRecordPromise) {
                     const data = await videoRecordPromise;
                     const source = data.uri
+                    navigation.navigate("savePost", { source });
                 }
             } catch (error) {
                 console.warn(error);
@@ -73,7 +79,7 @@ export default function CameraScreen() {
             quality: 1,
         })
         if (!result.cancelled) {
-            // TODO: Add video to gallery
+            navigation.navigate("savePost", { source: result.uri });
         }
 
     }
@@ -97,6 +103,17 @@ export default function CameraScreen() {
                         onCameraReady={() => setIsCameraReady(true)}
                     />
                     : null}
+
+                <View style={styles.sideBarContainer}>
+                    <TouchableOpacity style={styles.sideBarButton} onPress={() => setCameraType(cameraType == Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back)}>
+                        <Feather name="camera" size={24} color="white" />
+                        <Text style={styles.iconText}>Flip</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.sideBarButton} onPress={() => setCameraFlash(cameraFlash == Camera.Constants.FlashMode.off ? Camera.Constants.FlashMode.torch : Camera.Constants.FlashMode.off)}>
+                        <Feather name="zap" size={24} color="white" />
+                        <Text style={styles.iconText}>Flash</Text>
+                    </TouchableOpacity>
+                </View>
 
                 <View style={styles.bottomBarContainer}>
                     <View style={{ flex: 1 }}></View>
